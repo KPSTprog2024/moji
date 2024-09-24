@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ジグソーパズルゲーム</title>
+  <!-- Phaser.js CDNの読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+      margin-top: 20px;
+    }
+    #gameCanvas {
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #333;
+    }
+    #uploadButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ジグソーパズルゲーム</h1>
+  <!-- 画像アップロードボタン -->
+  <input type="file" id="uploadButton" accept="image/*">
+  
+  <!-- ゲームのキャンバス -->
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <!-- ゲームのスクリプト -->
+  <script>
+    // Phaserの基本設定
+    const config = {
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      canvas: document.getElementById('gameCanvas'),
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      }
+    };
+
+    const game = new Phaser.Game(config);
+
+    function preload() {
+      // ゲームに必要な画像やアセットをここで読み込む
+    }
+
+    function create() {
+      // ゲームが始まる準備をここで行う
+      this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
+    }
+
+    function update() {
+      // 毎フレームの更新処理
+    }
+
+    // 画像アップロードのロジック（簡易版）
+    document.getElementById('uploadButton').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imageUrl = e.target.result;
+          console.log('画像がアップロードされました:', imageUrl);
+          // アップロードされた画像をゲームに使う処理をここに追加する
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+  </script>
+</body>
+</html>
