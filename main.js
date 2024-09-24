@@ -14,17 +14,15 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-  // ゲームに必要な画像やアセットをここで読み込む（今回は空）
+  // 必要に応じて事前に読み込むアセット
 }
 
 function create() {
-  // 「パズルを始めよう」のテキスト表示
   this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
 
   const pieceCount = 4; // ピースの数（2x2 = 4ピース）
-  const rows = Math.sqrt(pieceCount); // 行数
-  const cols = Math.sqrt(pieceCount); // 列数
-  const pieces = [];  // ピースを管理する配列
+  const rows = Math.sqrt(pieceCount);
+  const cols = Math.sqrt(pieceCount);
 
   const uploadButton = document.getElementById('uploadButton');
   uploadButton.addEventListener('change', (event) => {
@@ -32,37 +30,35 @@ function create() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const image = new Image();
-        image.src = e.target.result;
-        image.onload = () => {
-          const pieceWidth = image.width / cols;  // 各ピースの幅
-          const pieceHeight = image.height / rows; // 各ピースの高さ
+        const imageUrl = e.target.result;
+        
+        // Phaser.jsに画像をテクスチャとして読み込む
+        this.textures.remove('uploadedImage');  // 古い画像を削除
+        this.textures.addBase64('uploadedImage', imageUrl);  // 新しい画像を読み込む
 
-          // ピースごとに画像を分割してランダムに配置
-          for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-              const sx = col * pieceWidth; // 切り出すX座標
-              const sy = row * pieceHeight; // 切り出すY座標
+        const pieceWidth = this.textures.get('uploadedImage').source[0].width / cols;
+        const pieceHeight = this.textures.get('uploadedImage').source[0].height / rows;
 
-              // ランダムに描画位置を決定
-              const dx = Phaser.Math.Between(0, 800 - pieceWidth);  // ランダムX座標
-              const dy = Phaser.Math.Between(0, 600 - pieceHeight); // ランダムY座標
+        // ピースごとに画像を分割してランダムに配置
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const dx = Phaser.Math.Between(0, 800 - pieceWidth);
+            const dy = Phaser.Math.Between(0, 600 - pieceHeight);
 
-              // ピースを作成し、ドラッグ可能にする
-              let piece = this.add.image(dx, dy, image);
-              piece.setInteractive();
-              this.input.setDraggable(piece);
+            // ピースを作成し、ドラッグ可能にする
+            let piece = this.add.image(dx, dy, 'uploadedImage').setCrop(
+              col * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight
+            );
+            piece.setInteractive();
+            this.input.setDraggable(piece);
 
-              // ドラッグイベントの処理
-              this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-              });
-
-              pieces.push(piece);  // ピースを配列に追加して管理
-            }
+            // ドラッグイベントの処理
+            this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
+              gameObject.x = dragX;
+              gameObject.y = dragY;
+            });
           }
-        };
+        }
       };
       reader.readAsDataURL(file);
     }
