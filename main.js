@@ -3,7 +3,7 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  backgroundColor: 0x00ff00,  // 背景色を緑に変更して反映確認
+  backgroundColor: 0xff00ff,  // 背景色を紫に変更
   scene: {
     preload: preload,
     create: create,
@@ -18,6 +18,7 @@ function preload() {
 }
 
 function create() {
+  // 確認用のテキストを追加して反映を確認
   this.add.text(200, 100, 'テスト表示！', { fontSize: '48px', fill: '#ff0000' });  // 赤い文字で「テスト表示！」
   this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
 
