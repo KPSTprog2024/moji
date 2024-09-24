@@ -18,9 +18,7 @@ function preload() {
 }
 
 function create() {
-  // 確認用のテキストを追加して反映を確認
   this.add.text(200, 100, 'テスト表示！', { fontSize: '48px', fill: '#ff0000' });  // 赤い文字で「テスト表示！」
-
   this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
 
   const pieceCount = 4; // ピースの数（2x2 = 4ピース）
@@ -44,8 +42,8 @@ function create() {
           // ピースごとに画像を分割してランダムに配置
           for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-              const dx = Phaser.Math.Between(0, 800 - pieceWidth);
-              const dy = Phaser.Math.Between(0, 600 - pieceHeight);
+              const dx = Phaser.Math.Between(50, 750 - pieceWidth); // X座標を調整
+              const dy = Phaser.Math.Between(50, 550 - pieceHeight); // Y座標を調整
 
               // ピースを作成し、ドラッグ可能にする
               let piece = this.add.image(dx, dy, 'uploadedImage').setCrop(
@@ -54,10 +52,10 @@ function create() {
               piece.setInteractive();
               this.input.setDraggable(piece);
 
-              // ドラッグイベントの処理
-              this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
+              // ピースごとにドラッグイベントを設定
+              piece.on('drag', (pointer, dragX, dragY) => {
+                piece.x = dragX;
+                piece.y = dragY;
               });
             }
           }
