@@ -1,3 +1,32 @@
+// Phaserの基本設定
+const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  canvas: document.getElementById('gameCanvas'),
+  scene: {
+    preload: preload,
+    create: create,
+    update: update
+  }
+};
+
+const game = new Phaser.Game(config);
+
+function preload() {
+  // ゲームに必要な画像やアセットをここで読み込む
+}
+
+function create() {
+  // ゲームが始まる準備をここで行う
+  this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
+}
+
+function update() {
+  // 毎フレームの更新処理
+}
+
+// 画像アップロードとピース分割のロジックを統合
 document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
