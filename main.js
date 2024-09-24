@@ -26,11 +26,11 @@ function update() {
   // 毎フレームの更新処理
 }
 
-// 画像アップロードとピース分割のロジックを統合
+// 画像アップロードとピース分割のロジック
 document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
-  const pieceCount = 4; // まずは4ピースに分割（後で選択可能にする）
+  const pieceCount = 4; // まずは4ピースに分割（2x2）
   const rows = Math.sqrt(pieceCount); // 行数
   const cols = Math.sqrt(pieceCount); // 列数
 
@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
           const pieceWidth = image.width / cols;  // 各ピースの幅
           const pieceHeight = image.height / rows; // 各ピースの高さ
 
+          console.log(`ピースサイズ: ${pieceWidth}x${pieceHeight}`);
+
           // ピースごとに画像を分割してランダムに配置
           for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -56,12 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
               const sx = col * pieceWidth; // 切り出すX座標
               const sy = row * pieceHeight; // 切り出すY座標
 
-              // 切り出したピースをランダムな場所に描画
+              // ランダムな描画位置を計算
               const dx = Math.random() * (canvas.width - pieceWidth);
               const dy = Math.random() * (canvas.height - pieceHeight);
 
-              // 各ピースをランダムな位置に描画
+              // ピースをランダムに描画
               ctx.drawImage(image, sx, sy, pieceWidth, pieceHeight, dx, dy, pieceWidth, pieceHeight);
+
+              // デバッグ用ログ
+              console.log(`ピース(${row}, ${col}) - 原点: (${sx}, ${sy}) -> 描画位置: (${dx}, ${dy})`);
             }
           }
         };
