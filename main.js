@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
   const pieceCount = 4; // まずは4ピースに分割（後で選択可能にする）
+  const rows = Math.sqrt(pieceCount); // 行数
+  const cols = Math.sqrt(pieceCount); // 列数
 
   document.getElementById('uploadButton').addEventListener('change', function(event) {
     const file = event.target.files[0];
@@ -40,22 +42,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const image = new Image();
         image.src = e.target.result;
         image.onload = function() {
-          // キャンバスにアップロードされた画像を表示
-          const pieceWidth = image.width / Math.sqrt(pieceCount); // ピースの幅
-          const pieceHeight = image.height / Math.sqrt(pieceCount); // ピースの高さ
-
-          // 画像を表示
+          // キャンバスのサイズを画像に合わせる
           canvas.width = image.width;
           canvas.height = image.height;
-          ctx.drawImage(image, 0, 0);
 
-          // ピースごとに画像を分割
-          for (let row = 0; row < Math.sqrt(pieceCount); row++) {
-            for (let col = 0; col < Math.sqrt(pieceCount); col++) {
-              // 各ピースの部分を切り出す
-              const pieceImage = ctx.getImageData(col * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight);
-              // 後でドラッグできるよう、ここにピースを描画する処理を追加
-              console.log('ピース作成', pieceImage); // 確認用のログ
+          const pieceWidth = image.width / cols;  // 各ピースの幅
+          const pieceHeight = image.height / rows; // 各ピースの高さ
+
+          // ピースごとに画像を分割してランダムに配置
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+              // 各ピースの部分を切り出し
+              const sx = col * pieceWidth; // 切り出すX座標
+              const sy = row * pieceHeight; // 切り出すY座標
+
+              // 切り出したピースをランダムな場所に描画
+              const dx = Math.random() * (canvas.width - pieceWidth);
+              const dy = Math.random() * (canvas.height - pieceHeight);
+
+              // 各ピースをランダムな位置に描画
+              ctx.drawImage(image, sx, sy, pieceWidth, pieceHeight, dx, dy, pieceWidth, pieceHeight);
             }
           }
         };
