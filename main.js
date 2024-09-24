@@ -3,7 +3,6 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  canvas: document.getElementById('gameCanvas'),
   scene: {
     preload: preload,
     create: create,
@@ -34,31 +33,33 @@ function create() {
         
         // Phaser.jsに画像をテクスチャとして読み込む
         this.textures.remove('uploadedImage');  // 古い画像を削除
-        this.textures.addBase64('uploadedImage', imageUrl);  // 新しい画像を読み込む
+        this.textures.once('onload', () => {  // 画像がロードされたことを確認
+          const pieceWidth = this.textures.get('uploadedImage').source[0].width / cols;
+          const pieceHeight = this.textures.get('uploadedImage').source[0].height / rows;
 
-        const pieceWidth = this.textures.get('uploadedImage').source[0].width / cols;
-        const pieceHeight = this.textures.get('uploadedImage').source[0].height / rows;
+          // ピースごとに画像を分割してランダムに配置
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+              const dx = Phaser.Math.Between(0, 800 - pieceWidth);
+              const dy = Phaser.Math.Between(0, 600 - pieceHeight);
 
-        // ピースごとに画像を分割してランダムに配置
-        for (let row = 0; row < rows; row++) {
-          for (let col = 0; col < cols; col++) {
-            const dx = Phaser.Math.Between(0, 800 - pieceWidth);
-            const dy = Phaser.Math.Between(0, 600 - pieceHeight);
+              // ピースを作成し、ドラッグ可能にする
+              let piece = this.add.image(dx, dy, 'uploadedImage').setCrop(
+                col * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight
+              );
+              piece.setInteractive();
+              this.input.setDraggable(piece);
 
-            // ピースを作成し、ドラッグ可能にする
-            let piece = this.add.image(dx, dy, 'uploadedImage').setCrop(
-              col * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight
-            );
-            piece.setInteractive();
-            this.input.setDraggable(piece);
-
-            // ドラッグイベントの処理
-            this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
-              gameObject.x = dragX;
-              gameObject.y = dragY;
-            });
+              // ドラッグイベントの処理
+              this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
+                gameObject.x = dragX;
+                gameObject.y = dragY;
+              });
+            }
           }
-        }
+        });
+
+        this.textures.addBase64('uploadedImage', imageUrl);  // 新しい画像を読み込む
       };
       reader.readAsDataURL(file);
     }
