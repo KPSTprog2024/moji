@@ -6,7 +6,6 @@
   <title>ジグソーパズルゲーム</title>
   <!-- Phaser.js CDNの読み込み -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-  <script src="main.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -45,50 +44,8 @@
   <!-- ゲームのキャンバス -->
   <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-  <!-- ゲームのスクリプト -->
-  <script>
-    // Phaserの基本設定
-    const config = {
-      type: Phaser.AUTO,
-      width: 800,
-      height: 600,
-      canvas: document.getElementById('gameCanvas'),
-      scene: {
-        preload: preload,
-        create: create,
-        update: update
-      }
-    };
+  <!-- main.jsを読み込む部分をここに追加！ -->
+  <script src="main.js"></script>
 
-    const game = new Phaser.Game(config);
-
-    function preload() {
-      // ゲームに必要な画像やアセットをここで読み込む
-    }
-
-    function create() {
-      // ゲームが始まる準備をここで行う
-      this.add.text(200, 300, 'パズルを始めよう！', { fontSize: '32px', fill: '#000' });
-    }
-
-    function update() {
-      // 毎フレームの更新処理
-    }
-
-    // 画像アップロードのロジック（簡易版）
-    document.getElementById('uploadButton').addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imageUrl = e.target.result;
-          console.log('画像がアップロードされました:', imageUrl);
-          // アップロードされた画像をゲームに使う処理をここに追加する
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-  </script>
 </body>
 </html>
