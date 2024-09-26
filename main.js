@@ -3,7 +3,7 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  backgroundColor: 0xff00ff,  // 背景色を紫に変更
+  backgroundColor: 0xff0fff,  // 背景色を紫に変更
   scene: {
     preload: preload,
     create: create,
