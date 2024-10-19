@@ -72,12 +72,13 @@
         <option value="#0f0">緑</option>
         <option value="#00f">青</option>
     </select>
-    <select id="fontFamily">
+    <select id="fontFamily" onchange="updateFontPreview()">
         <option value="Arial">Arial</option>
         <option value="Courier New">Courier New</option>
         <option value="Times New Roman">Times New Roman</option>
         <option value="Verdana">Verdana</option>
     </select>
+    <div id="fontPreview" style="margin-top: 10px; font-size: 1.5em;">フォントプレビュー: ここにメッセージが流れます！</div>
     <button onclick="updateBanner()">更新</button>
 
     <script>
@@ -92,6 +93,12 @@
             banner.style.color = textColor;
             banner.style.fontFamily = fontFamily;
             banner.className = scrollMode;
+        }
+
+        function updateFontPreview() {
+            const fontFamily = document.getElementById("fontFamily").value;
+            const fontPreview = document.getElementById("fontPreview");
+            fontPreview.style.fontFamily = fontFamily;
         }
     </script>
 </body>
