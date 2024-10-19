@@ -1,51 +1,98 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ジグソーパズルゲーム</title>
-  <!-- Phaser.js CDNの読み込み -->
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      color: #333;
-      margin-top: 20px;
-    }
-    #gameCanvas {
-      display: block;
-      margin: 20px auto;
-      border: 2px solid #333;
-    }
-    #uploadButton {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電光掲示板 Webサイト</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+        }
+        #banner {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 3em;
+            text-align: center;
+            padding: 10px;
+        }
+        .scroll-up {
+            animation: scrollUp 10s linear infinite;
+        }
+        .scroll-down {
+            animation: scrollDown 10s linear infinite;
+        }
+        .scroll-left {
+            animation: scrollLeft 10s linear infinite;
+        }
+        .scroll-right {
+            animation: scrollRight 10s linear infinite;
+        }
+
+        @keyframes scrollLeft {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        @keyframes scrollRight {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        @keyframes scrollUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(-100%); }
+        }
+
+        @keyframes scrollDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(100%); }
+        }
+    </style>
 </head>
 <body>
+    <div id="banner">ここにメッセージが流れます！</div>
+    <input type="text" id="messageInput" placeholder="表示するメッセージを入力" />
+    <select id="scrollMode">
+        <option value="scroll-left">左に流れる</option>
+        <option value="scroll-right">右に流れる</option>
+        <option value="scroll-up">上に流れる</option>
+        <option value="scroll-down">下に流れる</option>
+    </select>
+    <select id="textColor">
+        <option value="#fff">白</option>
+        <option value="#f00">赤</option>
+        <option value="#0f0">緑</option>
+        <option value="#00f">青</option>
+    </select>
+    <select id="fontFamily">
+        <option value="Arial">Arial</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+    </select>
+    <button onclick="updateBanner()">更新</button>
 
-  <h1>ジグソーパズルゲーム</h1>
-  <!-- 画像アップロードボタン -->
-  <input type="file" id="uploadButton" accept="image/*">
-  
-  <!-- ゲームのキャンバス -->
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
-
-  <!-- main.jsを読み込む部分をここに追加！ -->
-  <script src="main.js"></script>
-
+    <script>
+        function updateBanner() {
+            const message = document.getElementById("messageInput").value;
+            const scrollMode = document.getElementById("scrollMode").value;
+            const textColor = document.getElementById("textColor").value;
+            const fontFamily = document.getElementById("fontFamily").value;
+            
+            const banner = document.getElementById("banner");
+            banner.textContent = message;
+            banner.style.color = textColor;
+            banner.style.fontFamily = fontFamily;
+            banner.className = scrollMode;
+        }
+    </script>
 </body>
 </html>
