@@ -85,9 +85,13 @@
         <option value="Impact">Impact</option>
         <option value="Georgia">Georgia</option>
         <option value="Papyrus">Papyrus</option>
+        <option value="Noto Sans JP">Noto Sans JP (日本語対応)</option>
+        <option value="Yu Gothic">Yu Gothic (日本語対応)</option>
+        <option value="Hiragino Maru Gothic Pro">Hiragino Maru Gothic Pro (日本語対応)</option>
     </select>
     <div id="fontPreview" style="margin-top: 10px; font-size: 1.5em;">フォントプレビューだよ！ Thank you!! 123 ABC</div>
     <button onclick="updateBanner()">更新</button>
+    <button onclick="startDisplayMode()">Go</button>
 
     <script>
         function updateBanner() {
@@ -114,6 +118,16 @@
             const banner = document.getElementById("banner");
             const textColor = document.getElementById("textColor").value;
             banner.style.textShadow = `0 0 10px ${textColor}, 0 0 20px ${textColor}, 0 0 30px ${textColor}, 0 0 40px ${textColor}, 0 0 50px ${textColor}`;
+        }
+
+        function startDisplayMode() {
+            document.getElementById("messageInput").style.display = "none";
+            document.getElementById("scrollMode").style.display = "none";
+            document.getElementById("textColor").style.display = "none";
+            document.getElementById("fontFamily").style.display = "none";
+            document.getElementById("fontPreview").style.display = "none";
+            document.querySelector("button[onclick='updateBanner()']").style.display = "none";
+            document.querySelector("button[onclick='startDisplayMode()']").style.display = "none";
         }
     </script>
 </body>
