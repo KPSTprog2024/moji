@@ -22,6 +22,7 @@
             font-size: 3em;
             text-align: center;
             padding: 10px;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
         }
         .scroll-up, .scroll-down {
             writing-mode: vertical-rl;
@@ -70,11 +71,12 @@
         <option value="scroll-up">上に流れる</option>
         <option value="scroll-down">下に流れる</option>
     </select>
-    <select id="textColor">
+    <select id="textColor" onchange="updateTextShadow()">
         <option value="#fff">白</option>
         <option value="#f00">赤</option>
         <option value="#0f0">緑</option>
         <option value="#00f">青</option>
+        <option value="#ff0">黄色</option>
     </select>
     <select id="fontFamily" onchange="updateFontPreview()">
         <option value="Arial">Arial</option>
@@ -84,7 +86,7 @@
         <option value="Georgia">Georgia</option>
         <option value="Papyrus">Papyrus</option>
     </select>
-    <div id="fontPreview" style="margin-top: 10px; font-size: 1.5em;">フォントプレビュー: ここにメッセージが流れます！</div>
+    <div id="fontPreview" style="margin-top: 10px; font-size: 1.5em;">フォントプレビューだよ！ 123</div>
     <button onclick="updateBanner()">更新</button>
 
     <script>
@@ -99,12 +101,19 @@
             banner.style.color = textColor;
             banner.style.fontFamily = fontFamily;
             banner.className = scrollMode;
+            updateTextShadow();
         }
 
         function updateFontPreview() {
             const fontFamily = document.getElementById("fontFamily").value;
             const fontPreview = document.getElementById("fontPreview");
             fontPreview.style.fontFamily = fontFamily;
+        }
+
+        function updateTextShadow() {
+            const banner = document.getElementById("banner");
+            const textColor = document.getElementById("textColor").value;
+            banner.style.textShadow = `0 0 10px ${textColor}, 0 0 20px ${textColor}, 0 0 30px ${textColor}, 0 0 40px ${textColor}, 0 0 50px ${textColor}`;
         }
     </script>
 </body>
