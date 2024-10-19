@@ -23,6 +23,10 @@
             text-align: center;
             padding: 10px;
         }
+        .scroll-up, .scroll-down {
+            writing-mode: vertical-rl;
+            white-space: normal;
+        }
         .scroll-up {
             animation: scrollUp 10s linear infinite;
         }
@@ -75,8 +79,10 @@
     <select id="fontFamily" onchange="updateFontPreview()">
         <option value="Arial">Arial</option>
         <option value="Courier New">Courier New</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Verdana">Verdana</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+        <option value="Impact">Impact</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Papyrus">Papyrus</option>
     </select>
     <div id="fontPreview" style="margin-top: 10px; font-size: 1.5em;">フォントプレビュー: ここにメッセージが流れます！</div>
     <button onclick="updateBanner()">更新</button>
